@@ -1,7 +1,7 @@
 {
   "name": "gpa_task",
   "version": "1.0.0",
-  "description": "NodeJs Task for GPA Group",
+  "description": "NodeJs - Weather Forecast",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
