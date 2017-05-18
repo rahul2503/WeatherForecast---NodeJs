@@ -1,5 +1,5 @@
 {
-  "name": "gpa_task",
+  "name": "weather_forecasting",
   "version": "1.0.0",
   "description": "NodeJs - Weather Forecast",
   "main": "server.js",
