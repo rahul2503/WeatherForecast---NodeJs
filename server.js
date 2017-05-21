@@ -32,13 +32,7 @@ app.get('/refresh', function(req, res, next) {
 					resp.on('end', function() {
 						if (resp.statusCode === 200) {
 							f_data = JSON.parse(f_body);
-							Mongo.update('weather', {'city.name': changeCase.titleCase(city)}, f_data, {upsert: true}, function(s, r) {
-								// console.log(r);
-								console.log("");
-							});
-							// Mongo.insert('weather', f_data, function(s, r) {
-							// 	console.log(r);
-							// });
+							Mongo.update('weather', {'city.name': changeCase.titleCase(city)}, f_data, {upsert: true}, function(s, r) {console.log("city weather updated");});
 						}
 					});
 				});
