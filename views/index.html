@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>GPA Search App</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<style type="text/css">
+		table {
+		    font-family: arial, sans-serif;
+		    border-collapse: collapse;
+		    width: 60%;
+		}
+
+		td, th {
+		    border: 1px solid #aaaaaa;
+		    text-align: center;
+		    padding: 8px;
+		}
+
+		tr:nth-child(even) {
+		    background-color: #eeeeee;
+		}		
+
+		button {
+	        background-color: rgb(234, 32, 14);
+	        color: white;
+	        padding: 14px 20px;
+	        margin: 8px 0;
+	        border: none;
+	        cursor: pointer;
+	        width: 20%;
+	    }
+		.bs-example{
+			font-family: sans-serif;
+			position: relative;
+			margin: 50px;
+		}
+		.typeahead, .tt-query, .tt-hint {
+			border: 2px solid #CCCCCC;
+			border-radius: 8px;
+			font-size: 24px;
+			height: 30px;
+			line-height: 30px;
+			outline: medium none;
+			padding: 8px 12px;
+			width: 396px;
+		}
+		.typeahead {
+			background-color: #FFFFFF;
+		}
+		.typeahead:focus {
+			border: 2px solid #0097CF;
+		}
+		.tt-query {
+			box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+		}
+	</style>
+
+	<script>
+		var typingTimer;
+		var doneTypingInterval = 1000;
+		$(document).ready(function() {
+			$("#search").keyup(function() {
+				clearTimeout(typingTimer);
+				if ($('#search').val()) {
+					typingTimer = setTimeout(doneTyping, doneTypingInterval)
+				}
+			});
+
+			function doneTyping() {
+				var val = $('#search').val();
+		        $.get('/search?key='+val, function(resp) {
+		        	if (resp.success) {
+		        		res = resp.data;
+		        		console.log(res);
+			        	document.getElementById('weather').innerHTML = '<table id="row"><tr style="background-color: #cccccc"><td><b>S.no.</b></td><td><b>Date</b></td><td><b>Temperature(degrees Celsius)</b></td><td><b>Weather</b></td><td><b>Humidity</b></td></tr></table>';
+
+			        	for (var i = 0; i < 14; i+=2) {
+				        	document.getElementById('row').innerHTML += '<tr><td><b>'+(i+1)+'.</b></td><td>'+new Date(res.list[i].dt*1000).getDate()+'-0'+(new Date(res.list[i].dt*1000).getMonth()+1)+'-'+(new Date(res.list[i].dt*1000).getYear()+1900)+'</td><td>Max - '+((res.list[i].temp.max)-273).toFixed(2)+'<br>Min - '+((res.list[i].temp.min)-273).toFixed(2)+'</td><td>'+res.list[i].weather[0].description+'</td><td>'+res.list[i].humidity+'</td></tr><tr><td><b>'+(i+2)+'.</b></td><td>'+new Date(res.list[i+1].dt*1000).getDate()+'-0'+(new Date(res.list[i+1].dt*1000).getMonth()+1)+'-'+(new Date(res.list[i+1].dt*1000).getYear()+1900)+'</td><td>Max - '+((res.list[i+1].temp.max)-273).toFixed(2)+'<br>Min - '+((res.list[i+1].temp.min)-273).toFixed(2)+'</td><td>'+res.list[i+1].weather[0].description+'</td><td>'+res.list[i+1].humidity+'</td></tr>'
+			        	}
+		        	} else {
+
+		        	}
+		        });
+			}
+		});
+	</script>
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div align="center" class="col-sm-12">
+    		    <button type="button" onclick=""><b>Refresh</b></button>
+		    </div>
+	    </div>
+		
+		<div class="bs-example" align="center">
+		    <input id="search" type="text" class="typeahead tt-query" autocomplete="off" spellcheck="false" placeholder="Enter City Name">
+		</div>
+
+        <div class="row" align="center">
+    		<div id="weather"></div>
+		</div>
+	</div>
+</body>
+</html>

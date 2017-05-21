@@ -1,7 +1,7 @@
 {
-  "name": "weather_forecasting",
+  "name": "weather_forecast_app",
   "version": "1.0.0",
-  "description": "NodeJs - Weather Forecast",
+  "description": "",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -9,9 +9,9 @@
   "author": "Rahul Sharma",
   "license": "ISC",
   "dependencies": {
-    "body-parser": "^1.17.1",
-    "express": "^4.15.2",
-    "html": "^1.0.0",
+    "body-parser": "^1.17.2",
+    "express": "^4.15.3",
+    "http": "0.0.0",
     "mongodb": "^2.2.26",
     "path": "^0.12.7"
   }
