@@ -60,24 +60,3 @@ module.exports.update = function(collectionName, doc, json, options, callback) {
 		}
 	});
 };
-
-
-module.exports.delete = function(collectionName, json, callback) {
-	console.log("mongo delete");
-
-	mongo.MongoClient.connect(uri, function(err, db) {
-		if (!err) {
-			db.collection(collectionName).insert(json, function(err, user) {
-				if (err) {
-					callback({'success': false, 'reason': 'Failure deleting database'})
-				} else {
-					console.log("Deleted from database");
-					callback(true);
-				}
-			});
-		} else {
-			throw new Error('Error connecting database');
-		}
-	});
-};
-
