@@ -6,6 +6,7 @@ var path = require("path");
 var http = require('http');
 var Mongo = require('./mongoConfig');
 var sleep = require('system-sleep');
+var changeCase = require('change-case')
 
 app.use(bodyParser.json());
 
@@ -21,6 +22,7 @@ app.get('/refresh', function(req, res, next) {
 			console.log(resp);
 			for (var i=0; i<resp.length; i+=1) {
 				var city = resp[i].city;
+				console.log(city);
 				var f_body = "";
 				var reqt = http.get('http://api.openweathermap.org/data/2.5/forecast/daily?q='+city+'&cnt=14&appid=15d4179b0339349fffc0bf1519a20e7b', function(resp) {
 					resp.on('data', function(cb) {
@@ -30,10 +32,13 @@ app.get('/refresh', function(req, res, next) {
 					resp.on('end', function() {
 						if (resp.statusCode === 200) {
 							f_data = JSON.parse(f_body);
-							// console.log(f_data);
-							Mongo.insert('weather', f_data, function(s, r) {
-								console.log(r);
+							Mongo.update('weather', {'city.name': changeCase.titleCase(city)}, f_data, {upsert: true}, function(s, r) {
+								// console.log(r);
+								console.log("");
 							});
+							// Mongo.insert('weather', f_data, function(s, r) {
+							// 	console.log(r);
+							// });
 						}
 					});
 				});
@@ -54,7 +59,7 @@ app.get('/search', function(req, res) {
 	var callbackGetWeatherData = function(success, response) {
 		if (success) {
 			var f_data = JSON.parse(response);
-			res.send({'success': true, 'data': f_data});
+			res.send({'success': true, 'data': f_data[0]});
 		} else {
 			var f_data;
 			var f_body = "";
@@ -66,23 +71,21 @@ app.get('/search', function(req, res) {
 				resp.on('end', function() {
 					if (resp.statusCode === 200) {
 						f_data = JSON.parse(f_body);
-						console.log(f_data);
-						Mongo.insert('city', {'city': city}, function(s, r) {
+						Mongo.retrieve('city', {'city': changeCase.titleCase(city)}, function(s, r) {
 							if (s) {
-								console.log(r);
+								console.log("city already present");
 							} else {
-								console.log(r);
+								Mongo.insert('city', {'city': changeCase.titleCase(city)}, function(s, r){ console.log("new city inserted")});
 							}
 						});
 						res.send({'success': true, 'data': f_data});
 					}
 				});
 			});
-
 		}
 	}
 
-	Mongo.retrieve('weather', {'city.name': city}, callbackGetWeatherData);
+	Mongo.retrieve('weather', {'city.name': changeCase.titleCase(city)}, callbackGetWeatherData);
 });
 
 
