@@ -30,7 +30,7 @@ module.exports.retrieve = function(collectionName, json, callback) {
 					throw new Error('Error retrieving database'); 
 				} else {
 					if (user != '') {
-						callback(true, JSON.stringify(user[0]));
+						callback(true, JSON.stringify(user));
 					} else {
 						callback(false, {'reason': 'user does not exist'});
 					}
