@@ -22,10 +22,10 @@ module.exports.insert = function(collectionName, json, callback) {
 	});
 };
 
-module.exports.retrieve = function(collectionName, json, options, callback) {
+module.exports.retrieve = function(collectionName, json, callback) {
 	mongo.MongoClient.connect(uri, function(err, db) {
 		if (!err) {
-			db.collection(collectionName).find(json, options).toArray(function(err, user) {
+			db.collection(collectionName).find(json).toArray(function(err, user) {
 				if (err) {
 					throw new Error('Error retrieving database'); 
 				} else {

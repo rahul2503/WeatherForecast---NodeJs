@@ -14,11 +14,17 @@ app.get('/', function(req, res) {
 });
 
 app.get('/refresh', function(req, res) {
-
+	
 	var callbackGetCityData = function(success, response) {
-		
+		if (success) {
+			var resp = JSON.parse(response);
+			console.log(resp);
+		} else {
+			console.log("city missing");
+		}
 	}
-	Mongo.retrieve('city', {}, {'limit': 50}, callbackGetCityData);
+	Mongo.retrieve('city', {}, callbackGetCityData);
+	res.send(200);
 });
 
 app.get('/search', function(req, res) {
@@ -55,7 +61,7 @@ app.get('/search', function(req, res) {
 		}
 	}
 
-	Mongo.retrieve('weather', {'city.name': city}, {}, callbackGetWeatherData);
+	Mongo.retrieve('weather', {'city.name': city}, callbackGetWeatherData);
 });
 
 

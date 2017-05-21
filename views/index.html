@@ -85,13 +85,17 @@
 		        });
 			}
 		});
+
+		function refresh() {
+			$.get('/refresh');
+		}
 	</script>
 </head>
 <body>
 	<div class="container">
 		<div class="row">
 			<div align="center" class="col-sm-12">
-    		    <button type="button" onclick=""><b>Refresh</b></button>
+    		    <button type="button" onclick="refresh()"><b>Refresh</b></button>
 		    </div>
 	    </div>
 		
