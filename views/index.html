@@ -73,7 +73,6 @@
 		        $.get('/search?key='+val, function(resp) {
 		        	if (resp.success) {
 		        		res = resp.data;
-		        		console.log(res);
 			        	document.getElementById('weather').innerHTML = '<table id="row"><tr style="background-color: #cccccc"><td><b>S.no.</b></td><td><b>Date</b></td><td><b>Temperature(degrees Celsius)</b></td><td><b>Weather</b></td><td><b>Humidity</b></td></tr></table>';
 
 			        	for (var i = 0; i < 14; i+=2) {

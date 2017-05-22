@@ -19,12 +19,10 @@ app.get('/refresh', function(req, res, next) {
 	var callbackGetCityData = function(success, response) {
 		if (success) {
 			var resp = JSON.parse(response);
-			console.log(resp);
 			for (var i=0; i<resp.length; i+=1) {
 				var city = resp[i].city;
-				console.log(city);
 				var f_body = "";
-				var reqt = http.get('http://api.openweathermap.org/data/2.5/forecast/daily?q='+city+'&cnt=14&appid=15d4179b0339349fffc0bf1519a20e7b', function(resp) {
+				var reqt = http.get('http://api.openweathermap.org/data/2.5/forecast/daily?q='+city+'&cnt=14&appid=0d6d70ddc2d512369fe17e040b36fd40', function(resp) {
 					resp.on('data', function(cb) {
 						f_body += cb;
 					});
@@ -57,7 +55,7 @@ app.get('/search', function(req, res) {
 		} else {
 			var f_data;
 			var f_body = "";
-			var reqt = http.get('http://api.openweathermap.org/data/2.5/forecast/daily?q='+city+'&cnt=14&appid=15d4179b0339349fffc0bf1519a20e7b', function(resp) {
+			var reqt = http.get('http://api.openweathermap.org/data/2.5/forecast/daily?q='+city+'&cnt=14&appid=0d6d70ddc2d512369fe17e040b36fd40', function(resp) {
 				resp.on('data', function(cb) {
 					f_body += cb;
 				});
