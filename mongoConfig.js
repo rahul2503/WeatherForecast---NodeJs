@@ -4,7 +4,7 @@ var router = express.Router();
 module.exports = router;
 
 var mongo = require('mongodb');
-var uri = 'mongoDb database url';
+var uri = ''; // mongoDb database url
 
 module.exports.insert = function(collectionName, json, callback) {
 	mongo.MongoClient.connect(uri, function(err, db) {
